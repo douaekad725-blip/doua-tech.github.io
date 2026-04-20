@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - [Prénom] [Nom] | Data & IA Engineer</title>
+    <style>
+        :root {
+            --bg-dark: #0a0e27;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --primary: #00d9ff;
+            --secondary: #7c3aed;
+            --accent: #f472b6;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --gradient: linear-gradient(135deg, #00d9ff 0%, #7c3aed 50%, #f472b6 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 217, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(244, 114, 182, 0.1) 0%, transparent 50%);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 5% 5rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 50px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Profile Photo */
+        .profile-photo-container {
+            margin: 0 auto 2rem;
+            position: relative;
+            width: 160px;
+            height: 160px;
+        }
+
+        .profile-photo {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--bg-dark);
+            box-shadow:
+                0 0 0 2px var(--primary),
+                0 0 30px rgba(0, 217, 255, 0.4),
+                0 10px 40px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+        }
+
+        .profile-photo:hover {
+            transform: scale(1.05);
+            box-shadow:
+                0 0 0 2px var(--primary),
+                0 0 50px rgba(0, 217, 255, 0.6),
+                0 15px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Badge de statut (optionnel) */
+        .profile-status {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            background: #22c55e;
+            border: 3px solid var(--bg-dark);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .gradient-text {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 217, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 217, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-category h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            padding: 0.4rem 1rem;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 0;
+        }
+
+        .project-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .project-card>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-tech {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin: 0.5rem 0 1rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: gap 0.3s;
+        }
+
+        .project-link:hover {
+            gap: 0.8rem;
+        }
+
+        /* Contact */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .contact-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .contact-card a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            margin-top: 4rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-animation"></div>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo">KADIRI DOUA </div>
+            <ul class="nav-links">
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#skills">Compétences</a></li>
+                <li><a href="#projects">Projets</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <!-- Photo de profil avec effet glow -->
+            <div class="profile-photo-container">
+                <img src="photo-profil.jpg" alt="Photo de [Prénom] [Nom]" class="profile-photo">
+                <!-- Badge statut (optionnel : retire si tu veux) -->
+                <span class="profile-status" title="Disponible pour stage"></span>
+            </div>
+
+            <div class="hero-badge"> Stage XAI 2026</div>
+            <h1>
+                Ingénieur <span class="gradient-text">Data & IA</span><br>
+                Spécialiste AMOA
+            </h1>
+            <p>
+                Étudiant à l'INPT, je conçois des solutions d'IA générative, d'ingénierie des données
+                et d'automatisation intelligente. Passionné par l'éthique, la performance et la souveraineté numérique.
+            </p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn btn-primary"> Voir mes projets</a>
+                <a href="#contact" class="btn btn-secondary"> Me contacter</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2 class="section-title">Compétences <span class="gradient-text">Techniques</span></h2>
+        <div class="skills-grid">
+            <div class="glass-card skill-category">
+                <h3> Data & BI</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Power BI</span>
+                    <span class="skill-tag">DAX</span>
+                    <span class="skill-tag">Power Query</span>
+                    <span class="skill-tag">pandas</span>
+                    <span class="skill-tag">numpy</span>
+                </div>
+            </div>
+            <div class="glass-card skill-category">
+                <h3> BDD & ETL</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">PostgreSQL 17</span>
+                    <span class="skill-tag">SQL Server</span>
+                    <span class="skill-tag">Talend</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">Modélisation</span>
+                </div>
+            </div>
+            <div class="glass-card skill-category">
+                <h3> Machine Learning</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Python 3.12</span>
+                    <span class="skill-tag">scikit-learn</span>
+                    <span class="skill-tag">Régression</span>
+                    <span class="skill-tag">NLP</span>
+                    <span class="skill-tag">joblib</span>
+                </div>
+            </div>
+            <div class="glass-card skill-category">
+                <h3> Outils & Méthodes</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Git/GitHub</span>
+                    <span class="skill-tag">UiPath</span>
+                    <span class="skill-tag">LaTeX</span>
+                    <span class="skill-tag">AMOA</span>
+                    <span class="skill-tag">Agile</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 class="section-title">Projets <span class="gradient-text">Phares</span></h2>
+        <div class="projects-grid">
+            <div class="glass-card project-card">
+                <h3> Dashboard Mobilité Urbaine</h3>
+                <p class="project-tech">Power BI • DAX • Power Query</p>
+                <p>ETL complet et modélisation relationnelle optimisée. Dashboard interactif pour analyser les
+                    problématiques de mobilité et optimiser les opérations entreprises.</p>
+
+            </div>
+            <div class="glass-card project-card">
+                <h3> Migration ETL SQL → PostgreSQL</h3>
+                <p class="project-tech">Talend • PostgreSQL 17 • Power BI</p>
+                <p>Jobs Talend pour migrer et fusionner des sources hétérogènes avec traçabilité, intégrité
+                    référentielle et gestion des erreurs.</p>
+
+            </div>
+            <div class="glass-card project-card">
+                <h3> Prédiction Immobilière (ML)</h3>
+                <p class="project-tech">Python • scikit-learn • pandas</p>
+                <p>Régression linéaire/polynomiale pour estimer les prix. Pipeline complet : prétraitement →
+                    entraînement → évaluation (R², MAE).</p>
+                <a href="https://github.com/douaekad725-blip/linear-regression-housing" class="project-link"
+                    target="_blank">Voir sur GitHub →</a>
+            </div>
+            <div class="glass-card project-card">
+                <h3> Chatbot IA (NLP)</h3>
+                <p class="project-tech">Python • NLP • Framework IA</p>
+                <p>Assistant conversationnel interprétant les requêtes utilisateur et générant des réponses
+                    contextuelles alignées avec l'IA responsable.</p>
+                <a href="https://github.com/douaekad725-blip/chatbot-ia-groq" class="project-link" target="_blank">Voir
+                    sur GitHub →</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title">Me <span class="gradient-text">Contacter</span></h2>
+        <div class="glass-card contact-card">
+            <p style="font-size: 1.1rem; margin-bottom: 1.5rem; color: var(--text-muted);">
+                Ouvert aux opportunités de stage <strong style="color: var(--primary);">XAI 2026</strong>
+                et projets Data/IA innovants
+            </p>
+            <div class="contact-grid">
+                <div>
+                    <p style="color: var(--text-muted); margin-bottom: 0.5rem;"> Email</p>
+                    <a href="mailto:douaekad725@gmail.com">kadiridouae527@gmail.com</a>
+                </div>
+                <div>
+                    <p style="color: var(--text-muted); margin-bottom: 0.5rem;"> LinkedIn</p>
+                    <a href="https://www.linkedin.com/in/doua-kadiri-029a16385" target="_blank">linkedin.com/in/DOUA
+                        KADIRI</a>
+                </div>
+                <div>
+                    <p style="color: var(--text-muted); margin-bottom: 0.5rem;"> GitHub</p>
+                    <a href="https://github.com/douaekad725-blip" target="_blank">github.com/DOUAE DOUAE</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 KADIRI DOUA .
+            INPT Rabat</p>
+    </footer>
+</body>
+
+</html>
